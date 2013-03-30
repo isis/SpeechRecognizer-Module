@@ -55,7 +55,7 @@ var lastselectedRow;
 var lastselectedActionRow;
 
 var actions = [
-        Ti.UI.createPickerRow({title:'Free form',actionid:"1"}),
+        Ti.UI.createPickerRow({title:'Speech',actionid:"1"}),
         Ti.UI.createPickerRow({title:'Web search',actionid:"2"}),
         Ti.UI.createPickerRow({title:'Hands free search',actionid:"3"})
      ];
@@ -77,12 +77,13 @@ function clearPicker(picker) {
 }
 
 // TODO: write your module tests here
-var speechrecognizer = require('jp.isisredirect.speechrecognizer');
-Ti.API.info("module is => " + speechrecognizer);
+var speechrecognizerModule = require('jp.isisredirect.speechrecognizer');
+Ti.API.info("module is => " + speechrecognizerModule);
 
-conTextField.value = "isRecognitionAvailable:" + speechrecognizer.isRecognitionAvailable() + "\n";
-conTextField.value += "isVoiceSearchHandsFreeAvailable:" + speechrecognizer.isVoiceSearchHandsFreeAvailable() + "\n";
-var proxy = speechrecognizer.createSpeechRecognizer({});
+conTextField.value = "isRecognitionAvailable:" + speechrecognizerModule.isRecognitionAvailable() + "\n";
+conTextField.value += "isVoiceSearchHandsFreeAvailable:" + speechrecognizerModule.isVoiceSearchHandsFreeAvailable() + "\n";
+
+var speechrecognizer = speechrecognizerModule.createSpeechRecognizer();
 
 clearbutton.addEventListener("click", function(e) {
 	conTextField.value = "";
@@ -91,9 +92,9 @@ startbutton.addEventListener("click", function(e) {
 	startbutton.enable = false;
 	var selectedlang = lastselectedRow.title;
 	var selectedaction = lastselectedActionRow.actionid;
-	proxy.setLangtag(selectedlang);
-	proxy.setAction(selectedaction);
-	proxy.start();
+	speechrecognizer.setLangtag(selectedlang);
+	speechrecognizer.setAction(selectedaction);
+	speechrecognizer.start();
 });
 
 langpicker.addEventListener('change', function(e) {
@@ -105,10 +106,10 @@ actionpicker.addEventListener('change', function(e) {
 
 var firstselect = 0;
 
-speechrecognizer.addEventListener(speechrecognizer.LANGUAGEDETAILS, function(e) {
+speechrecognizerModule.addEventListener(speechrecognizerModule.LANGUAGEDETAILS, function(e) {
 	clearPicker(langpicker);
-	var langpref = e[speechrecognizer.LANGUAGE_PREFERENCE];
-	var langs = e[speechrecognizer.SUPPORTED_LANGUAGES];
+	var langpref = e[speechrecognizerModule.LANGUAGE_PREFERENCE];
+	var langs = e[speechrecognizerModule.SUPPORTED_LANGUAGES];
 	firstselect = 0;
 	lastselectedRow = null;
 	var pickerdata = [];
@@ -142,44 +143,38 @@ win.addEventListener('postlayout', function(e){
 	}
 });
 
-proxy.addEventListener(speechrecognizer.READYFORSPEECH, function(e) {
+speechrecognizer.addEventListener(speechrecognizerModule.READYFORSPEECH, function(e) {
 	conTextField.value += e.type +"\n";
-	startbutton.enable = true;
-	
 });
-proxy.addEventListener(speechrecognizer.BEGINNINGOFSPEECH, function(e) {
+speechrecognizer.addEventListener(speechrecognizerModule.BEGINNINGOFSPEECH, function(e) {
 	conTextField.value += e.type +"\n";
-	startbutton.enable = true;
-	
 });
-proxy.addEventListener(speechrecognizer.BUFFERRECEIVED, function(e) {
+speechrecognizer.addEventListener(speechrecognizerModule.BUFFERRECEIVED, function(e) {
 	conTextField.value += e.type +"\n";
-	startbutton.enable = true;
-	
 });
 /* too many logs
-proxy.addEventListener(speechrecognizer.RMSCHANGED, function(e) {
+speechrecognizer.addEventListener(speechrecognizerModule.RMSCHANGED, function(e) {
 	conTextField.value += e.type +"\n";
-	startbutton.enable = true;
-	
 });
 */
-proxy.addEventListener(speechrecognizer.ENDOFSPEECH, function(e) {
+speechrecognizer.addEventListener(speechrecognizerModule.ENDOFSPEECH, function(e) {
 	conTextField.value += e.type +"\n";
-	startbutton.enable = true;
-	
 });
-proxy.addEventListener(speechrecognizer.ERROR, function(e) {
+speechrecognizer.addEventListener(speechrecognizerModule.ERROR, function(e) {
 	conTextField.value += e.type + ":" + e.error + "\n";
 	startbutton.enable = true;
-	
+	speechrecognizer.stop(); // 
 });
-proxy.addEventListener(speechrecognizer.EVENT, function(e) {
+speechrecognizer.addEventListener(speechrecognizerModule.EVENT, function(e) {
 	conTextField.value += e.type + "\n";
-	startbutton.enable = true;
-	
 });
-proxy.addEventListener(speechrecognizer.PARTIALRESULTS, function(e) {
+speechrecognizer.addEventListener(speechrecognizerModule.PARTIALRESULTS, function(e) {
+	conTextField.value += e.type +"\n";
+	conTextField.value += e.results +"\n";
+	conTextField.value += e.confidence_scores +"\n";
+});
+
+speechrecognizer.addEventListener(speechrecognizerModule.RESULTS, function(e) {
 	conTextField.value += e.type +"\n";
 	conTextField.value += e.results +"\n";
 	conTextField.value += e.confidence_scores +"\n";
@@ -187,15 +182,7 @@ proxy.addEventListener(speechrecognizer.PARTIALRESULTS, function(e) {
 	
 });
 
-proxy.addEventListener(speechrecognizer.RESULTS, function(e) {
-	conTextField.value += e.type +"\n";
-	conTextField.value += e.results +"\n";
-	conTextField.value += e.confidence_scores +"\n";
-	startbutton.enable = true;
-	
-});
-
-speechrecognizer.getLanguageDetails();
+speechrecognizerModule.getLanguageDetails();
 
 win.open();
 
