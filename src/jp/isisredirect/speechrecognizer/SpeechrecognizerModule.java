@@ -42,7 +42,11 @@ public class SpeechrecognizerModule extends KrollModule {
 	@Kroll.constant
 	public static final String MAXRESULT = "maxresult";
 	@Kroll.constant
+	public static final String LANGMODEL = "langmodel";
+	@Kroll.constant
 	public static final String FREEFORM = "freeform";
+	@Kroll.constant
+	public static final String WEBSEARCH = "webseach";
 	@Kroll.constant
 	public static final String PARTIALRESULT = "partialresult";
 	@Kroll.constant

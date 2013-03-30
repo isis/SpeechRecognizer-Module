@@ -45,7 +45,7 @@ public class SpeechRecognizerProxy extends KrollProxy implements
 	 */
 	private String lang_tag = null;
 	private Integer max_result = 1;
-	private boolean free_formOrNot = true;
+	private String langmodel = SpeechrecognizerModule.FREEFORM;
 	private boolean partial_resultOrNot = true;
 	private boolean websearchonlyOrNot = false;
 	private String origin = null;
@@ -178,11 +178,11 @@ public class SpeechRecognizerProxy extends KrollProxy implements
 			} else {
 				setMaxresult(1);
 			}
-			if (options.containsKey(SpeechrecognizerModule.FREEFORM)) {
-				setFreeform((Boolean) options
-						.get(SpeechrecognizerModule.FREEFORM));
+			if (options.containsKey(SpeechrecognizerModule.LANGMODEL)) {
+				setLangmodel( (String)options
+						.get(SpeechrecognizerModule.LANGMODEL));
 			} else {
-				setFreeform(true);
+				setLangmodel(SpeechrecognizerModule.FREEFORM);
 			}
 			if (options.containsKey(SpeechrecognizerModule.PARTIALRESULT)) {
 				setPartialresult((Boolean) options
@@ -208,9 +208,7 @@ public class SpeechRecognizerProxy extends KrollProxy implements
 			}
 		}
 		createSpeechRecognizer();
-
 	}
-
 
 	@Override
 	public void onResume(Activity arg0) {
@@ -236,12 +234,15 @@ public class SpeechRecognizerProxy extends KrollProxy implements
 	private Intent getRecognizeSpeechIntent() {
 		Log.d(LCAT, "getRecognizeSpeechIntent");
 		Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
-		if (getIsFreeform()) {
+		if (getLangmodel() == SpeechrecognizerModule.FREEFORM) {
 			intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
 					RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
-		} else {
+		} else if (this.getLangmodel() == SpeechrecognizerModule.WEBSEARCH) {
 			intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
 					RecognizerIntent.LANGUAGE_MODEL_WEB_SEARCH);
+		}else{
+			intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
+					RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
 		}
 		/*
 		 * if (getPrompt() != null) {
@@ -260,12 +261,15 @@ public class SpeechRecognizerProxy extends KrollProxy implements
 	private Intent getWebSearchIntent() {
 		Log.d(LCAT, "getWebSearchIntent");
 		Intent intent = new Intent(RecognizerIntent.ACTION_WEB_SEARCH);
-		if (getIsFreeform()) {
+		if (getLangmodel() == SpeechrecognizerModule.FREEFORM) {
 			intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
 					RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
-		} else {
+		} else if (this.getLangmodel() == SpeechrecognizerModule.WEBSEARCH) {
 			intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
 					RecognizerIntent.LANGUAGE_MODEL_WEB_SEARCH);
+		}else{
+			intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
+					RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
 		}
 		/*
 		 * if (getPrompt() != null) {
@@ -550,14 +554,13 @@ public class SpeechRecognizerProxy extends KrollProxy implements
 
 	@Kroll.setProperty
 	@Kroll.method
-	public void setFreeform(boolean free_formOrNot) {
-		this.free_formOrNot = free_formOrNot;
+	public void setLangmodel(String langmodel) {
+		this.langmodel = langmodel;
 	}
-
 	@Kroll.getProperty
 	@Kroll.method
-	public boolean getIsFreeform() {
-		return free_formOrNot;
+	public String getLangmodel() {
+		return langmodel;
 	}
 
 	@Kroll.setProperty
