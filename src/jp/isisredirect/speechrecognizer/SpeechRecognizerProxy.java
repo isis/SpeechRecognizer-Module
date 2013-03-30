@@ -211,24 +211,24 @@ public class SpeechRecognizerProxy extends KrollProxy implements
 	}
 
 	@Override
-	public void onResume(Activity arg0) {
+	public void onResume(Activity activity) {
 	}
 
 	@Override
-	public void onStart(Activity arg0) {
+	public void onStart(Activity activity) {
 	}
 
 	@Override
-	public void onPause(Activity arg0) {
+	public void onPause(Activity activity) {
 	}
 
 	@Override
-	public void onStop(Activity arg0) {
+	public void onStop(Activity activity) {
 		release();
 	}
 
 	@Override
-	public void onDestroy(Activity arg0) {
+	public void onDestroy(Activity activity) {
 	}
 
 	private Intent getRecognizeSpeechIntent() {
