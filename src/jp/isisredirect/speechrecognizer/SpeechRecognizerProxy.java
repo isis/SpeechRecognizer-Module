@@ -599,4 +599,41 @@ public class SpeechRecognizerProxy extends KrollProxy implements
 		return secure;
 	}
 
+	@Kroll.method
+	public String getErrorMessageFromErrorCode(int error) {
+		String message;
+		switch (error) {
+		case SpeechRecognizer.ERROR_AUDIO:
+			message = "Audio recording error";
+			break;
+		case SpeechRecognizer.ERROR_CLIENT:
+			message = "Client side error";
+			break;
+		case SpeechRecognizer.ERROR_INSUFFICIENT_PERMISSIONS:
+			message = "Insufficient permissions";
+			break;
+		case SpeechRecognizer.ERROR_NETWORK:
+			message = "Network error";
+			break;
+		case SpeechRecognizer.ERROR_NETWORK_TIMEOUT:
+			message = "Network timeout";
+			break;
+		case SpeechRecognizer.ERROR_NO_MATCH:
+			message = "No match";
+			break;
+		case SpeechRecognizer.ERROR_RECOGNIZER_BUSY:
+			message = "RecognitionService busy";
+			break;
+		case SpeechRecognizer.ERROR_SERVER:
+			message = "error from server";
+			break;
+		case SpeechRecognizer.ERROR_SPEECH_TIMEOUT:
+			message = "No speech input";
+			break;
+		default:
+			message = "Didn't understand, please try again.";
+			break;
+		}
+		return message;
+	}
 }
