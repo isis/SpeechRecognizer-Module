@@ -67,10 +67,11 @@ public class SpeechRecognizerProxy extends KrollProxy implements
 	private final Handler handler = new Handler(TiMessenger.getMainMessenger()
 			.getLooper(), new Handler.Callback() {
 		public boolean handleMessage(Message msg) {
+			Log.d(LCAT, "handleMessage:" + msg.what);
 			switch (msg.what) {
 			case MSG_CREATESPEECHRECOGNIZER: {
 				AsyncResult result = (AsyncResult) msg.obj;
-				createSpeechRecognizer();
+				createSpeechRecognizerSynch();
 				result.setResult(null);
 				return true;
 			}
@@ -99,6 +100,17 @@ public class SpeechRecognizerProxy extends KrollProxy implements
 	});
 
 	protected void createSpeechRecognizer() {
+		if (!TiApplication.isUIThread()) {
+			Log.d(LCAT, "handleCreationDict not on UI Thread");
+			TiMessenger.sendBlockingMainMessage(handler
+					.obtainMessage(MSG_CREATESPEECHRECOGNIZER));
+		} else {
+			Log.d(LCAT, "handleCreationDict on UI Thread");
+			createSpeechRecognizerSynch();
+		}
+	}
+
+	protected void createSpeechRecognizerSynch() {
 		Log.d(LCAT, "createSpeechRecognizer");
 		mSpeechRecognizer = SpeechRecognizer
 				.createSpeechRecognizer(TiApplication.getInstance());
@@ -134,62 +146,71 @@ public class SpeechRecognizerProxy extends KrollProxy implements
 		mSpeechRecognizer.stopListening();
 	}
 
+	// Handle default creation
+	@Override
+	protected void handleDefaultValues() {
+		super.handleDefaultValues();
+		Log.d(LCAT, "handleDefaultValues");
+		createSpeechRecognizer();
+	}
+
 	// Handle creation options
 	@Override
 	public void handleCreationDict(KrollDict options) {
 		super.handleCreationDict(options);
+		Log.d(LCAT, "handleCreationDict");
 
-		/*
-		 * if (options.containsKey(SpeechrecognizerModule.PROMPT)) {
-		 * setPrompt((String) options.get(SpeechrecognizerModule.PROMPT)); }
-		 * else { setPrompt(null); }
-		 */
-		if (options.containsKey(SpeechrecognizerModule.LANGTAG)) {
-			setLangtag((String) options.get(SpeechrecognizerModule.LANGTAG));
-		} else {
-			setLangtag(null);
+		if (options != null) {
+			/*
+			 * if (options.containsKey(SpeechrecognizerModule.PROMPT)) {
+			 * setPrompt((String) options.get(SpeechrecognizerModule.PROMPT)); }
+			 * else { setPrompt(null); }
+			 */
+
+			if (options.containsKey(SpeechrecognizerModule.LANGTAG)) {
+				setLangtag((String) options.get(SpeechrecognizerModule.LANGTAG));
+			} else {
+				setLangtag(null);
+			}
+			if (options.containsKey(SpeechrecognizerModule.MAXRESULT)) {
+				setMaxresult((Integer) options
+						.get(SpeechrecognizerModule.MAXRESULT));
+			} else {
+				setMaxresult(1);
+			}
+			if (options.containsKey(SpeechrecognizerModule.FREEFORM)) {
+				setFreeform((Boolean) options
+						.get(SpeechrecognizerModule.FREEFORM));
+			} else {
+				setFreeform(true);
+			}
+			if (options.containsKey(SpeechrecognizerModule.PARTIALRESULT)) {
+				setPartialresult((Boolean) options
+						.get(SpeechrecognizerModule.PARTIALRESULT));
+			} else {
+				setPartialresult(true);
+			}
+			if (options.containsKey(SpeechrecognizerModule.WEBSEARCHONLY)) {
+				setWebsearchonly((Boolean) options
+						.get(SpeechrecognizerModule.WEBSEARCHONLY));
+			} else {
+				setWebsearchonly(false);
+			}
+			if (options.containsKey(SpeechrecognizerModule.ORIGIN)) {
+				setOrigin((String) options.get(SpeechrecognizerModule.ORIGIN));
+			} else {
+				setOrigin(null);
+			}
+			if (options.containsKey(SpeechrecognizerModule.SECURE)) {
+				setSecure((Boolean) options.get(SpeechrecognizerModule.SECURE));
+			} else {
+				setSecure(true);
+			}
 		}
-		if (options.containsKey(SpeechrecognizerModule.MAXRESULT)) {
-			setMaxresult((Integer) options
-					.get(SpeechrecognizerModule.MAXRESULT));
-		} else {
-			setMaxresult(1);
-		}
-		if (options.containsKey(SpeechrecognizerModule.FREEFORM)) {
-			setFreeform((Boolean) options.get(SpeechrecognizerModule.FREEFORM));
-		} else {
-			setFreeform(true);
-		}
-		if (options.containsKey(SpeechrecognizerModule.PARTIALRESULT)) {
-			setPartialresult((Boolean) options
-					.get(SpeechrecognizerModule.PARTIALRESULT));
-		} else {
-			setPartialresult(true);
-		}
-		if (options.containsKey(SpeechrecognizerModule.WEBSEARCHONLY)) {
-			setWebsearchonly((Boolean) options
-					.get(SpeechrecognizerModule.WEBSEARCHONLY));
-		} else {
-			setWebsearchonly(false);
-		}
-		if (options.containsKey(SpeechrecognizerModule.ORIGIN)) {
-			setOrigin((String) options.get(SpeechrecognizerModule.ORIGIN));
-		} else {
-			setOrigin(null);
-		}
-		if (options.containsKey(SpeechrecognizerModule.SECURE)) {
-			setSecure((Boolean) options.get(SpeechrecognizerModule.SECURE));
-		} else {
-			setSecure(true);
-		}
-		if (!TiApplication.isUIThread()) {
-			TiMessenger.sendBlockingMainMessage(handler
-					.obtainMessage(MSG_CREATESPEECHRECOGNIZER));
-		} else {
-			createSpeechRecognizer();
-		}
+		createSpeechRecognizer();
 
 	}
+
 
 	@Override
 	public void onResume(Activity arg0) {
@@ -296,7 +317,7 @@ public class SpeechRecognizerProxy extends KrollProxy implements
 
 	@Kroll.method
 	public void start() {
-		Log.v(LCAT, "start");
+		Log.v(LCAT, "start:"+mSpeechRecognizer);
 		if (mSpeechRecognizer != null) {
 			if (!TiApplication.isUIThread()) {
 				TiMessenger.sendBlockingMainMessage(handler
@@ -309,7 +330,7 @@ public class SpeechRecognizerProxy extends KrollProxy implements
 
 	@Kroll.method
 	public void cancel() {
-		Log.v(LCAT, "cancel");
+		Log.v(LCAT, "cancel:"+mSpeechRecognizer);
 		if (mSpeechRecognizer != null) {
 			if (!TiApplication.isUIThread()) {
 				TiMessenger.sendBlockingMainMessage(handler
@@ -322,7 +343,7 @@ public class SpeechRecognizerProxy extends KrollProxy implements
 
 	@Kroll.method
 	public void stop() {
-		Log.v(LCAT, "stop");
+		Log.v(LCAT, "stop:"+mSpeechRecognizer);
 		if (mSpeechRecognizer != null) {
 			if (!TiApplication.isUIThread()) {
 				TiMessenger.sendBlockingMainMessage(handler
