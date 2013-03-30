@@ -168,8 +168,14 @@ public class SpeechrecognizerModule extends KrollModule {
 
 	@Kroll.method
 	public void getLanguageDetails() {
-		Intent detailsIntent = new Intent(
-				RecognizerIntent.ACTION_GET_LANGUAGE_DETAILS);
+		/*
+			Intent detailsIntent = 
+				RecognizerIntent.getVoiceDetailsIntent(TiApplication.getInstance().getApplicationContext());
+			 { act=android.speech.action.GET_LANGUAGE_DETAILS cmp=com.google.android.googlequicksearchbox/com.google.android.voicesearch.DetailsReceiver }
+			dose not work.
+		*
+		*/
+		Intent detailsIntent = new Intent(RecognizerIntent.ACTION_GET_LANGUAGE_DETAILS);
 		TiApplication
 				.getInstance()
 				.getRootActivity()
