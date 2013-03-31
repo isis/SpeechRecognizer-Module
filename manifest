@@ -6,7 +6,7 @@ version: 2.0
 apiversion: 2
 description: speechrecognizer module
 author: Katsumi ISHIDA
-license: Specify your license
+license: see license file
 copyright: Copyright (c) 2013 Katsumi ISHIDA. All rights reserved.
 
 

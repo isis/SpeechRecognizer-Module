@@ -18,6 +18,11 @@ You can
 
 6) make your own custom UI design for SpeechRecognize.  *SpeechRecognizer module* uses direct mode of SpeechRecognizer API.
 
+## Requrement
+
+Android min-sdk: Android 2.2 (API Level 8)
+Titanium 2.1.0.GA
+
 ## Accessing the speechrecognizer Module
 
 To access this module from JavaScript, you would do the following:
@@ -136,11 +141,11 @@ there are three actions
 
 More technical details is here:
 
-http://developer.android.com/reference/android/speech/RecognizerIntent.html#ACTION_RECOGNIZE_SPEECH
+<http://developer.android.com/reference/android/speech/RecognizerIntent.html#ACTION_RECOGNIZE_SPEECH>
 
-http://developer.android.com/reference/android/speech/RecognizerIntent.html#ACTION_WEB_SEARCH
+<http://developer.android.com/reference/android/speech/RecognizerIntent.html#ACTION_WEB_SEARCH>
 
-http://developer.android.com/reference/android/speech/RecognizerIntent.html#ACTION_VOICE_SEARCH_HANDS_FREE
+<http://developer.android.com/reference/android/speech/RecognizerIntent.html#ACTION_VOICE_SEARCH_HANDS_FREE>
 
 #### langtag : String
 informs the recognizer to perform speech recognition in a language.
@@ -386,7 +391,7 @@ The confidence score is ranging from 0.0 to 1.0, or -1 to represent an unavailab
 
 More technicall details :
 
-http://developer.android.com/reference/android/speech/SpeechRecognizer.html#CONFIDENCE_SCORES
+<http://developer.android.com/reference/android/speech/SpeechRecognizer.html#CONFIDENCE_SCORES>
  
 
 #### results
@@ -416,7 +421,7 @@ The confidence score is ranging from 0.0 to 1.0, or -1 to represent an unavailab
 
 More technicall details :
 
-http://developer.android.com/reference/android/speech/SpeechRecognizer.html#CONFIDENCE_SCORES
+<http://developer.android.com/reference/android/speech/SpeechRecognizer.html#CONFIDENCE_SCORES>
  
 
 
