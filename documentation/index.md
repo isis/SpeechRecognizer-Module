@@ -49,11 +49,11 @@ Whether Android device supports SpeechRecognizer.
 
 ##### Parameters
 
-+void
++ void
 
 ##### Returns
 
-+Boolean
++ Boolean
 
 true if Android device supports SpeechRecognizer.
 
@@ -62,11 +62,11 @@ Whether Android device supports Voice Search Hands Free feature.
 
 ##### Parameters
 
-+void
++ void
 
 ##### Returns
 
-+Boolean
++ Boolean
 
 true if Android device supports Voice Search Hands Free feature.
 
@@ -78,11 +78,11 @@ This method's result is priovided by *languagedetails* event.
 
 ##### Parameters
 
-+void
++ void
 
 ##### Returns
 
-+void
++ void
 
 More technical details is here:
 
@@ -93,13 +93,13 @@ create SpeechRecognizer object.
 
 ##### Parameters
 
-+parameters: Dictionary\<SpeechRecognizer\>  (optional)
++ parameters: Dictionary\<SpeechRecognizer\>  (optional)
 
 Properties to set on a new object, including any defined by SpeechRecognizer
 
 ##### Returns
 
-+SpeechRecognizer object
++ SpeechRecognizer object
 
 ### module events
 #### languagedetails
@@ -107,19 +107,19 @@ Fired when the results of speechrecognizerModule.getLanguageDetails() are ready 
 
 ##### Properties
 
-+source : Object
++ source : Object
 
 Source object that fired the event.
 
-+type : String
++ type : String
 
 Name of the event fired.
 
-+language_preference : String
++ language_preference : String
 
 represents the current language preference this user has specified - a locale string like "en-US".
 
-+supported_languages : Array of Strings
++ supported_languages : Array of Strings
 
 represents the languages supported by this implementation of voice recognition - a Array of strings like "en-US", "cmn-Hans-CN", etc.
 
@@ -205,44 +205,44 @@ Starts listening for speech.
 
 ##### Parameters
 
-+void
++ void
 
 ##### Returns
 
-+void
++ void
 
 #### speechrecognizer.cancel()
 Cancels the speech recognition.
 
 ##### Parameters
 
-+void
++ void
 
 ##### Returns
 
-+void
++ void
 
 #### speechrecognizer.stop()
 Stops listening for speech.
 
 ##### Parameters
 
-+void
++ void
 
 ##### Returns
 
-+void
++ void
 
 #### speechrecognizer.release()
 release recognizer resources.
 
 ##### Parameters
 
-+void
++ void
 
 ##### Returns
 
-+void
++ void
 
 
 #### getErrorMessageFromErrorCode(int error):String
@@ -250,13 +250,13 @@ gets error message from error code which is provided in *error* event.
 
 ##### Parameters
 
-+error:Number
++ error:Number
 
 error code received in error event.
 
 ##### Returns
 
-+String
++ String
 
 error string that is correcponding to error code.
 
@@ -265,11 +265,11 @@ error string that is correcponding to error code.
 
 ##### Properties
 
-+source : Object
++ source : Object
 
 Source object that fired the event.
 
-+type : String
++ type : String
 
 Name of the event fired.
 
@@ -277,11 +277,11 @@ Name of the event fired.
 The user has started to speak.
 
 ##### Properties
-+source : Object
++ source : Object
 
 Source object that fired the event.
 
-+type : String
++ type : String
 
 Name of the event fired.
 
@@ -294,11 +294,11 @@ There is no guarantee that this method will be called (depend on implementation 
 
 ##### Properties
 
-+source : Object
++ source : Object
 
 Source object that fired the event.
 
-+type : String
++ type : String
 
 Name of the event fired.
 
@@ -309,15 +309,15 @@ There is no guarantee that this method will be called (depend on implementation 
 
 ##### Properties
 
-+source : Object
++ source : Object
 
 Source object that fired the event.
 
-+type : String
++ type : String
 
 Name of the event fired.
 
-+rmsdb : float
++ rmsdb : float
 
 the new RMS dB value
 
@@ -326,11 +326,11 @@ Called after the user stops speaking.
 
 ##### Properties
 
-+source : Object
++ source : Object
 
 Source object that fired the event.
 
-+type : String
++ type : String
 
 Name of the event fired.
 
@@ -339,15 +339,15 @@ A network or recognition error occurred.
 
 ##### Properties
 
-+source : Object
++ source : Object
 
 Source object that fired the event.
 
-+type : String
++ type : String
 
 Name of the event fired.
 
-+error: Number
++ error: Number
 
 error code
 
@@ -356,11 +356,11 @@ Reserved for adding future events.
 
 ##### Properties
 
-+source : Object
++ source : Object
 
 Source object that fired the event.
 
-+type : String
++ type : String
 
 Name of the event fired.
 
@@ -369,19 +369,19 @@ Called when partial recognition results are available.
 
 ##### Properties
 
-+source : Object
++ source : Object
 
 Source object that fired the event.
 
-+type : String
++ type : String
 
 Name of the event fired.
 
-+results: Array of Strings
++ results: Array of Strings
 
 the possible recognition results, where the first element is the most likely candidate.
 
-+confidence_scores : Array of floats
++ confidence_scores : Array of floats
 
 same size array as results, includes the confidence score of each result.
 
@@ -399,19 +399,19 @@ Called when recognition results are ready.
 
 ##### Properties
 
-+source : Object
++ source : Object
 
 Source object that fired the event.
 
-+type : String
++ type : String
 
 Name of the event fired.
 
-+results: Array of Strings
++ results: Array of Strings
 
 the possible recognition results, where the first element is the most likely candidate.
 
-+confidence_scores : Array of floats
++ confidence_scores : Array of floats
 
 same size array as results, includes the confidence score of each result.
 
