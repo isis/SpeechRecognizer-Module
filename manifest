@@ -2,8 +2,8 @@
 # this is your module manifest and used by Titanium
 # during compilation, packaging, distribution, etc.
 #
-version: 2.0
-apiversion: 2
+version: 3.0
+apiversion: 3
 description: speechrecognizer module
 author: Katsumi ISHIDA
 license: see license file
@@ -15,4 +15,4 @@ name: speechrecognizer
 moduleid: jp.isisredirect.speechrecognizer
 guid: c338a836-8c0b-4bf8-9347-7e9cae1acf89
 platform: android
-minsdk: 2.1.0.GA
+minsdk: 3.0.0.GA

@@ -240,11 +240,11 @@ public class SpeechRecognizerProxy extends KrollProxy implements
 
 	@Override
 	public void onStop(Activity activity) {
-		release();
 	}
 
 	@Override
 	public void onDestroy(Activity activity) {
+		release();
 	}
 
 	private Intent getRecognizeSpeechIntent() {
@@ -430,21 +430,44 @@ public class SpeechRecognizerProxy extends KrollProxy implements
 	@Override
 	public void onError(int error) {
 		Log.v(LCAT, "onError : " + error);
-		/*
-		 * switch (error) { case SpeechRecognizer.ERROR_AUDIO: break; case
-		 * SpeechRecognizer.ERROR_CLIENT: break; case
-		 * SpeechRecognizer.ERROR_INSUFFICIENT_PERMISSIONS: break; case
-		 * SpeechRecognizer.ERROR_NETWORK: Log.e(LCAT, "network error"); break;
-		 * case SpeechRecognizer.ERROR_NETWORK_TIMEOUT: Log.e(LCAT,
-		 * "network timeout"); break; case SpeechRecognizer.ERROR_NO_MATCH:
-		 * break; case SpeechRecognizer.ERROR_RECOGNIZER_BUSY: break; case
-		 * SpeechRecognizer.ERROR_SERVER: break; case
-		 * SpeechRecognizer.ERROR_SPEECH_TIMEOUT: break; default: break; }
-		 */
 		KrollDict data = new KrollDict();
 		data.put(TiC.EVENT_PROPERTY_SOURCE, SpeechRecognizerProxy.this);
 		data.put(TiC.PROPERTY_TYPE, SpeechrecognizerModule.ERROR);
 		data.put(SpeechrecognizerModule.ERROR, error);
+		switch (error) { 
+			case SpeechRecognizer.ERROR_AUDIO: 
+				data.put(SpeechrecognizerModule.ERRORMESSAGE, "audio error");
+				break; 
+			case SpeechRecognizer.ERROR_CLIENT:
+				data.put(SpeechrecognizerModule.ERRORMESSAGE, "client error");
+				break; 
+			case SpeechRecognizer.ERROR_INSUFFICIENT_PERMISSIONS: 
+				data.put(SpeechrecognizerModule.ERRORMESSAGE, "permission error");
+				break; 
+			case SpeechRecognizer.ERROR_NETWORK: 
+				Log.e(LCAT, "network error"); 
+				data.put(SpeechrecognizerModule.ERRORMESSAGE, "network error");
+				break;
+			case SpeechRecognizer.ERROR_NETWORK_TIMEOUT: 
+				Log.e(LCAT, "network timeout"); 
+				data.put(SpeechrecognizerModule.ERRORMESSAGE, "network timeout error");
+				break; 
+			case SpeechRecognizer.ERROR_NO_MATCH:
+				data.put(SpeechrecognizerModule.ERRORMESSAGE, "no match");
+				break; 
+			case SpeechRecognizer.ERROR_RECOGNIZER_BUSY: 
+				data.put(SpeechrecognizerModule.ERRORMESSAGE, "recognizer busy");
+				break; 
+			case SpeechRecognizer.ERROR_SERVER: 
+				data.put(SpeechrecognizerModule.ERRORMESSAGE, "server error");
+				break; 
+			case SpeechRecognizer.ERROR_SPEECH_TIMEOUT: 
+				data.put(SpeechrecognizerModule.ERRORMESSAGE, "speech timeout error");
+				break; 
+			default: 
+				data.put(SpeechrecognizerModule.ERRORMESSAGE, "unknown error");
+				break; 
+		}
 		fireEvent(SpeechrecognizerModule.ERROR, data);
 	}
 

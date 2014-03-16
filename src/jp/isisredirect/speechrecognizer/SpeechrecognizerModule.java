@@ -101,6 +101,8 @@ public class SpeechrecognizerModule extends KrollModule {
 	@Kroll.constant
 	public static final String ERROR = "error";
 	@Kroll.constant
+	public static final String ERRORMESSAGE = "errormessage";
+	@Kroll.constant
 	public static final String EVENT = "event";
 	@Kroll.constant
 	public static final String PARTIALRESULTS = "partialresults";

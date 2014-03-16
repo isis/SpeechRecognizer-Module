@@ -1,5 +1,5 @@
-titanium.platform=<your titenium sdk path>/mobilesdk/osx/2.1.0.GA/android
-android.platform=<your android sdk path>/platforms/android-16
-google.apis=<your android sdk path>/add-ons/addon_google_apis_google_inc_16/
-titanium.version=2.1.0.GA
+titanium.platform=<your titenium sdk path>/mobilesdk/osx/3.2.1.GA/android
+android.platform=<your android sdk path>/platforms/android-19
+google.apis=<your android sdk path>/add-ons/addon_google_apis_google_inc_19/
+titanium.version=3.2.1.GA
 android.ndk=<your ndk path>
