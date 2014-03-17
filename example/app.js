@@ -6,7 +6,7 @@
 
 // open a single window
 var win = Ti.UI.createWindow({
-	backgroundColor:'white'
+	backgroundColor:'black'
 });
 var clearbutton = Ti.UI.createButton({
 	title : 'clear',
@@ -92,21 +92,25 @@ startbutton.addEventListener("click", function(e) {
 	startbutton.enable = false;
 	var selectedlang = lastselectedRow.title;
 	var selectedaction = lastselectedActionRow.actionid;
+	Ti.API.log("start " + selectedlang + " " + selectedaction);
 	speechrecognizer.setLangtag(selectedlang);
 	speechrecognizer.setAction(selectedaction);
 	speechrecognizer.start();
 });
 
 langpicker.addEventListener('change', function(e) {
+	Ti.API.log("langpicker " + e.row);
     lastselectedRow = e.row;
 });
 actionpicker.addEventListener('change', function(e) {
+	Ti.API.log("actionpicker " + e.row);
     lastselectedActionRow = e.row;
 });
 
 var firstselect = 0;
 
 speechrecognizerModule.addEventListener(speechrecognizerModule.LANGUAGEDETAILS, function(e) {
+	Ti.API.log("speechrecognizerModule LANGUAGEDETAILS " + e );
 	clearPicker(langpicker);
 	var langpref = e[speechrecognizerModule.LANGUAGE_PREFERENCE];
 	var langs = e[speechrecognizerModule.SUPPORTED_LANGUAGES];
@@ -161,9 +165,10 @@ speechrecognizer.addEventListener(speechrecognizerModule.ENDOFSPEECH, function(e
 	conTextField.value += e.type +"\n";
 });
 speechrecognizer.addEventListener(speechrecognizerModule.ERROR, function(e) {
-	conTextField.value += e.type + ":" + e.error + "\n";
-	startbutton.enable = true;
-	speechrecognizer.stop(); // 
+	//if (e.error != 5) {
+		conTextField.value += e.type + ":" + e.error + " " + e.errormessage + "\n";
+	//}
+	//startbutton.enable = true;
 });
 speechrecognizer.addEventListener(speechrecognizerModule.EVENT, function(e) {
 	conTextField.value += e.type + "\n";
@@ -179,7 +184,8 @@ speechrecognizer.addEventListener(speechrecognizerModule.RESULTS, function(e) {
 	conTextField.value += e.results +"\n";
 	conTextField.value += e.confidence_scores +"\n";
 	startbutton.enable = true;
-	
+	speechrecognizer.stop(); // 
+
 });
 
 speechrecognizerModule.getLanguageDetails();
